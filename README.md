@@ -153,6 +153,19 @@ FLASK_ENV=production
 - **Models**: Enable/disable specific AI models
 - **Styling**: Customize UI themes and colors
 
+## 🎥 Demo Video
+
+Watch the AI Counter-Propaganda Detector in action!
+
+**📹 Demo Video**: [video ai counter Propaganda.mov](video%20ai%20counter%20Propaganda.mov) *(198MB - Download to view)*
+
+*Experience the real-time analysis, beautiful UI, and comprehensive insights in action!*
+
+> **💡 Tip**: For better viewing experience, you can:
+> - Download the video file above
+> - Upload to [GitHub Releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases) for streaming
+> - Host on [YouTube](https://youtube.com) or [Vimeo](https://vimeo.com) and link here
+
 ## 📱 Screenshots
 
 ### Main Interface

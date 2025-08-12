@@ -192,6 +192,16 @@ models/
 *.pkl
 *.joblib
 
+# Large media files (GitHub file size limit: 100MB)
+*.mov
+*.mp4
+*.avi
+*.mkv
+*.wmv
+*.flv
+*.webm
+*.m4v
+
 # Database files
 *.db
 *.sqlite
