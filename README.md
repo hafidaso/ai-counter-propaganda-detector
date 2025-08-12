@@ -187,7 +187,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **LinkedIn**: [hafida-belayd](https://www.linkedin.com/in/hafida-belayd/)
 - **GitHub**: [@hafidaso](https://github.com/hafidaso)
 - **Portfolio**: [hafida-belayd.netlify.app](https://hafida-belayd.netlify.app/)
-- **Email**: contact@ymadigital.com
+- **Email**: hafidabelaidagnaoui@gmail.com
 
 ## 🌟 Star History
 
