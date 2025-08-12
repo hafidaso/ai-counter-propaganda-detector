@@ -211,6 +211,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <div align="center">
-  <p>Made with ❤️ by <a href="https://github.com/hafidaso">Hafida Belayd</a></p>
+  <p>Crafted with ❤️ for unbiased insight — by <a href="https://github.com/hafidaso">Hafida Belayd</a></p>
   <p>Empowering critical thinking through AI-powered media analysis</p>
 </div>
