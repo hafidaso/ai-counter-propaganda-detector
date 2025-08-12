@@ -1,0 +1,18 @@
+# LLM API Keys (Free options)
+# Get free API keys from these providers:
+
+# Groq - Fast inference, generous free tier
+# Sign up at: https://console.groq.com/
+GROQ_API_KEY=your_groq_api_key_here
+
+# OpenRouter - Access to many models
+# Sign up at: https://openrouter.ai/
+OPENROUTER_API_KEY=your_openrouter_api_key_here
+
+# Hugging Face - Community models
+# Sign up at: https://huggingface.co/
+HUGGINGFACE_API_KEY=your_huggingface_api_key_here
+
+# Optional: Other providers
+# OPENAI_API_KEY=your_openai_api_key_here
+# ANTHROPIC_API_KEY=your_anthropic_api_key_here 
