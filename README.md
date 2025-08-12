@@ -189,9 +189,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Portfolio**: [hafida-belayd.netlify.app](https://hafida-belayd.netlify.app/)
 - **Email**: hafidabelaidagnaoui@gmail.com
 
-## 🌟 Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=hafidaso/ai-counter-propaganda-detector&type=Date)](https://star-history.com/#hafidaso/ai-counter-propaganda-detector&Date)
 
 ---
 
