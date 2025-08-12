@@ -128,14 +128,13 @@ This tool is designed to:
 
 ### Environment Variables
 ```env
-# OpenAI/OpenRouter Configuration
+# LLM API Keys (Required)
 OPENAI_API_KEY=your_api_key_here
 OPENROUTER_API_KEY=your_api_key_here
+GROQ_API_KEY=your_groq_api_key_here
+HUGGINGFACE_API_KEY=your_huggingface_api_key_here
 
-# Database Configuration
-DATABASE_URL=postgresql://user:password@localhost/dbname
-
-# Security
+# Optional: Security & Configuration
 SECRET_KEY=your_secret_key_here
 FLASK_ENV=production
 ```
