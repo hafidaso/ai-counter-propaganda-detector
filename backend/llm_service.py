@@ -24,7 +24,7 @@ class LLMResponse:
     error: Optional[str] = None
 
 class LLMProvider(ABC):
-    """Abstract base class for LLM providers"""
+    """base class for LLM providers"""
     
     @abstractmethod
     def generate(self, prompt: str, max_tokens: int = 500) -> LLMResponse:
@@ -42,7 +42,7 @@ class OpenRouterProvider(LLMProvider):
     def __init__(self, api_key: Optional[str] = None):
         self.api_key = api_key or os.getenv('OPENROUTER_API_KEY')
         self.base_url = "https://openrouter.ai/api/v1/chat/completions"
-        self.model = "mistralai/mistral-7b-instruct:free"  # Free Mistral model
+        self.model = "mistralai/mistral-7b-instruct:free"  # free Mistral model
         
     def generate(self, prompt: str, max_tokens: int = 500) -> LLMResponse:
         try:
@@ -102,7 +102,7 @@ class GroqProvider(LLMProvider):
     def __init__(self, api_key: Optional[str] = None):
         self.api_key = api_key or os.getenv('GROQ_API_KEY')
         self.base_url = "https://api.groq.com/openai/v1/chat/completions"
-        self.model = "llama3-8b-8192"  # Free fast model
+        self.model = "llama3-8b-8192"  # free fast model
         
     def generate(self, prompt: str, max_tokens: int = 500) -> LLMResponse:
         try:
@@ -121,7 +121,7 @@ class GroqProvider(LLMProvider):
                 "model": self.model,
                 "messages": [{"role": "user", "content": prompt}],
                 "max_tokens": max_tokens,
-                "temperature": 0.3  # Lower for more consistent analysis
+                "temperature": 0.3  # lower for more consistent analysis
             }
             
             response = requests.post(
@@ -157,10 +157,10 @@ class GroqProvider(LLMProvider):
         return bool(self.api_key)
 
 class MockLLMProvider(LLMProvider):
-    """Mock provider for testing and fallback"""
+    """mock provider for testing and fallback"""
     
     def generate(self, prompt: str, max_tokens: int = 500) -> LLMResponse:
-        # Simulate LLM analysis based on prompt content
+        # simulate LLM analysis based on prompt content
         if "comprehensive analysis" in prompt.lower() or "propaganda" in prompt.lower():
             content = """{
   "overall_risk_score": 75,

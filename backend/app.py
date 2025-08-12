@@ -7,34 +7,34 @@ import logging
 import os
 from dotenv import load_dotenv
 
-# Load environment variables FIRST
+# gotta load these first so the API keys are ready
 load_dotenv()
 
-# NOW import LLM service classes after API keys are set
+# now we can import the LLM stuff safely
 from llm_service import LLMService
 from llm_analyzer import LLMPropagandaAnalyzer
 
-# Heavy dependencies imported only when needed for fallback analysis
+# these heavy ML libraries - only import when we actually need them
 def _import_heavy_deps():
-    """Import heavy ML dependencies only when needed for fallback"""
+    """grab the heavy ML stuff only when fallback analysis kicks in"""
     try:
         import torch
         from transformers import pipeline
         import numpy as np
         return torch, pipeline, np
     except ImportError as e:
-        logging.warning(f"Heavy ML dependencies not available: {e}")
+        logging.warning(f"heavy ML stuff not available: {e}")
         return None, None, None
 
-# Initialize Flask app
+# set up the Flask app
 app = Flask(__name__)
 CORS(app)
 
-# Configure logging
+# logging setup
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Initialize LLM services AFTER environment variables are loaded
+# get the LLM services ready
 llm_service = LLMService()
 llm_analyzer = LLMPropagandaAnalyzer()
 
@@ -44,16 +44,16 @@ class PropagandaDetector:
         self.load_models()
         
     def load_models(self):
-        """Load models only when needed - prioritize LLM analysis"""
+        """load models only when we need them - LLM analysis is the priority"""
         try:
-            logger.info("Initializing detector (models loaded on-demand)...")
+            logger.info("setting up the detector (models load on-demand)...")
             
-            # Lazy loading - models will be loaded only when fallback analysis is needed
+            # lazy loading - models only load when fallback analysis is needed
             self.sentiment_pipeline = None
             self.ner_pipeline = None
             self.nlp = None
             
-            # Try to load spaCy for basic linguistic analysis (lightweight)
+            # try to load spaCy for basic text analysis (it's lightweight)
             try:
                 self.nlp = spacy.load("en_core_web_sm")
                 logger.info("✅ spaCy model loaded")
@@ -61,7 +61,7 @@ class PropagandaDetector:
                 logger.warning("spaCy model not found - will use basic text analysis only")
                 self.nlp = None
             
-            # Enhanced bias detection keywords and patterns with intensity scoring
+            # these are the keywords and patterns we look for to detect bias
             self.bias_keywords = {
                 'emotional_high': ['outrageous', 'shocking', 'devastating', 'incredible', 'unbelievable', 'terrifying', 'catastrophic', 'nightmare', 'horrifying', 'appalling'],
                 'emotional_medium': ['concerning', 'troubling', 'alarming', 'disturbing', 'unsettling', 'worrying', 'dangerous', 'serious', 'critical'],
@@ -74,6 +74,7 @@ class PropagandaDetector:
                 'absolute': ['always', 'never', 'all', 'none', 'every', 'completely', 'totally', 'entirely', 'absolutely', 'definitely', 'certainly']
             }
             
+            # propaganda techniques we're looking for
             self.propaganda_techniques = {
                 'bandwagon': ['everyone', 'popular', 'trending', 'majority', 'most people', 'standing united', 'unite', 'together'],
                 'fear_mongering': ['dangerous', 'threat', 'risk', 'fear', 'scared', 'terrifying', 'too late', 'before it\'s too late'],
@@ -86,67 +87,67 @@ class PropagandaDetector:
             }
             
             self.models_loaded = True
-            logger.info("Detector initialized successfully!")
+            logger.info("detector is ready to go!")
             
         except Exception as e:
-            logger.error(f"Error initializing detector: {e}")
+            logger.error(f"oops, error setting up detector: {e}")
             self.models_loaded = False
     
     def _ensure_heavy_models_loaded(self):
-        """Load heavy ML models only when needed for fallback analysis"""
+        """load the heavy ML models only when we need them for fallback"""
         if self.sentiment_pipeline is None or self.ner_pipeline is None:
-            logger.info("Loading heavy ML models for fallback analysis...")
+            logger.info("loading heavy ML models for fallback analysis...")
             torch, pipeline_func, np = _import_heavy_deps()
             
             if pipeline_func is None:
-                logger.error("Cannot load heavy models - transformers not available")
+                logger.error("cannot load heavy models - transformers not available")
                 return False
             
             try:
-                # Sentiment Analysis - Twitter RoBERTa
+                # sentiment analysis using Twitter RoBERTa
                 self.sentiment_pipeline = pipeline_func(
                     "sentiment-analysis",
                     model="cardiffnlp/twitter-roberta-base-sentiment-latest",
                     return_all_scores=True
                 )
                 
-                # Named Entity Recognition
+                # named entity recognition
                 self.ner_pipeline = pipeline_func(
                     "ner",
                     model="dbmdz/bert-large-cased-finetuned-conll03-english",
                     aggregation_strategy="simple"
                 )
                 
-                logger.info("✅ Heavy ML models loaded successfully")
+                logger.info("✅ heavy ML models loaded successfully")
                 return True
                 
             except Exception as e:
-                logger.error(f"Failed to load heavy models: {e}")
+                logger.error(f"failed to load heavy models: {e}")
                 return False
         
         return True
     
     def analyze_sentiment(self, text):
-        """Enhanced emotional intensity and sentiment analysis"""
+        """figure out the emotional intensity and sentiment of the text"""
         try:
-            # Ensure heavy models are loaded for fallback analysis
+            # make sure we have the heavy models loaded for fallback
             if not self._ensure_heavy_models_loaded():
-                logger.warning("Sentiment analysis unavailable - using basic emotional analysis")
+                logger.warning("sentiment analysis unavailable - using basic emotional analysis")
                 return self._basic_emotional_analysis(text)
                 
             results = self.sentiment_pipeline(text)
             
-            # Extract sentiment scores
+            # grab the sentiment scores
             sentiment_scores = {}
             for result in results[0]:
                 sentiment_scores[result['label']] = result['score']
             
-            # Calculate base emotional intensity from sentiment model
-            positive_score = sentiment_scores.get('LABEL_2', 0)  # Positive
-            negative_score = sentiment_scores.get('LABEL_0', 0)  # Negative
+            # calculate base emotional intensity from the sentiment model
+            positive_score = sentiment_scores.get('LABEL_2', 0)  # positive
+            negative_score = sentiment_scores.get('LABEL_0', 0)  # negative
             base_intensity = max(positive_score, negative_score) * 100
             
-            # Enhanced emotional intensity calculation with keyword analysis
+            # enhanced emotional intensity with keyword analysis
             enhanced_intensity = self.calculate_enhanced_emotional_intensity(text, base_intensity)
             
             return {

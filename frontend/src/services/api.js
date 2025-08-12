@@ -2,95 +2,91 @@ import axios from 'axios';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
+// axios instance with some sensible defaults
 const api = axios.create({
-  baseURL: API_BASE_URL,
-  timeout: 60000, // Increased to 60 seconds for complex LLM analysis
-  headers: {
-    'Content-Type': 'application/json',
-  },
+    baseURL: API_BASE_URL,
+    timeout: 60000, // bumped up to 60 seconds for complex LLM analysis
+    headers: {
+        'Content-Type': 'application/json',
+    },
 });
 
-// Request interceptor
+// request interceptor - useful for debugging
 api.interceptors.request.use(
-  (config) => {
-    console.log('Making API request:', config.method?.toUpperCase(), config.url);
-    return config;
-  },
-  (error) => {
-    console.error('Request error:', error);
-    return Promise.reject(error);
-  }
+    (config) => {
+        console.log('sending request:', config.method?.toUpperCase(), config.url);
+        return config;
+    },
+    (error) => {
+        console.error('request error:', error);
+        return Promise.reject(error);
+    }
 );
 
-// Response interceptor
+// response interceptor - catch errors and log them
 api.interceptors.response.use(
-  (response) => {
-    console.log('API response received:', response.status, response.config.url);
-    return response;
-  },
-  (error) => {
-    console.error('API error:', error.response?.status, error.message);
-    return Promise.reject(error);
-  }
+    (response) => {
+        console.log('got response:', response.status, response.config.url);
+        return response;
+    },
+    (error) => {
+        console.error('response error:', error.response?.status, error.response?.data);
+        return Promise.reject(error);
+    }
 );
 
-export const apiService = {
-  // Health check
-  async healthCheck() {
+// health check endpoint
+export const checkHealth = async () => {
     try {
-      const response = await api.get('/api/health');
-      return response.data;
+        const response = await api.get('/health');
+        return response.data;
     } catch (error) {
-      throw new Error(`Health check failed: ${error.message}`);
+        throw new Error('backend is not responding');
     }
-  },
-
-  // Analyze text
-  async analyzeText(text, payload = {}) {
-    try {
-      const requestPayload = typeof text === 'string' ? { text, ...payload } : text;
-      const response = await api.post('/api/analyze', requestPayload);
-      return response.data;
-    } catch (error) {
-      if (error.response?.data?.error) {
-        throw new Error(error.response.data.error);
-      }
-      throw new Error(`Analysis failed: ${error.message}`);
-    }
-  },
-
-  // Compare multiple texts
-  async compareTexts(payload) {
-    try {
-      const response = await api.post('/api/compare', payload);
-      return response.data;
-    } catch (error) {
-      if (error.response?.data?.error) {
-        throw new Error(error.response.data.error);
-      }
-      throw new Error(`Comparison failed: ${error.message}`);
-    }
-  },
-
-  // Get LLM health status
-  async getLLMHealth() {
-    try {
-      const response = await api.get('/api/llm/health');
-      return response.data;
-    } catch (error) {
-      throw new Error(`LLM health check failed: ${error.message}`);
-    }
-  },
-
-  // Get models status
-  async getModelsStatus() {
-    try {
-      const response = await api.get('/api/models/status');
-      return response.data;
-    } catch (error) {
-      throw new Error(`Failed to get models status: ${error.message}`);
-    }
-  }
 };
 
-export default api;
+// analyze text endpoint
+export const analyzeText = async (text, options = {}) => {
+    try {
+        const response = await api.post('/analyze', {
+            text,
+            ...options
+        });
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.error || 'analysis failed');
+    }
+};
+
+// compare multiple texts endpoint
+export const compareTexts = async (texts, options = {}) => {
+    try {
+        const response = await api.post('/compare', {
+            texts,
+            ...options
+        });
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.error || 'comparison failed');
+    }
+};
+
+// get LLM health status
+export const getLLMHealth = async () => {
+    try {
+        const response = await api.get('/llm-health');
+        return response.data;
+    } catch (error) {
+        throw new Error('could not check LLM status');
+    }
+};
+
+// get available models
+export const getModelsStatus = async () => {
+    try {
+        const response = await api.get('/models');
+        return response.data;
+    } catch (error) {
+        throw new Error('could not get models status');
+    }
+};
