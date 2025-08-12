@@ -84,7 +84,7 @@ function App() {
         use_llm: analysisSettings.useLLM,
         thresholds: analysisSettings.thresholds
       };
-      const result = await apiService.compareTexts(payload);
+      const result = await compareTexts(payload);
       return result;
     } catch (error) {
       setError(error.message);

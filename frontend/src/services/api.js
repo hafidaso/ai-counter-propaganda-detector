@@ -38,7 +38,7 @@ api.interceptors.response.use(
 // health check endpoint
 export const checkHealth = async () => {
     try {
-        const response = await api.get('/health');
+        const response = await api.get('/api/health');
         return response.data;
     } catch (error) {
         throw new Error('backend is not responding');
@@ -48,7 +48,7 @@ export const checkHealth = async () => {
 // analyze text endpoint
 export const analyzeText = async (text, options = {}) => {
     try {
-        const response = await api.post('/analyze', {
+        const response = await api.post('/api/analyze', {
             text,
             ...options
         });
@@ -61,7 +61,7 @@ export const analyzeText = async (text, options = {}) => {
 // compare multiple texts endpoint
 export const compareTexts = async (texts, options = {}) => {
     try {
-        const response = await api.post('/compare', {
+        const response = await api.post('/api/compare', {
             texts,
             ...options
         });
@@ -74,7 +74,7 @@ export const compareTexts = async (texts, options = {}) => {
 // get LLM health status
 export const getLLMHealth = async () => {
     try {
-        const response = await api.get('/llm-health');
+        const response = await api.get('/api/llm/health');
         return response.data;
     } catch (error) {
         throw new Error('could not check LLM status');
@@ -84,7 +84,7 @@ export const getLLMHealth = async () => {
 // get available models
 export const getModelsStatus = async () => {
     try {
-        const response = await api.get('/models');
+        const response = await api.get('/api/models/status');
         return response.data;
     } catch (error) {
         throw new Error('could not get models status');
