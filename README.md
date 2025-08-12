@@ -157,14 +157,11 @@ FLASK_ENV=production
 
 Watch the AI Counter-Propaganda Detector in action!
 
-**📹 Demo Video**: [video ai counter Propaganda.mov](video%20ai%20counter%20Propaganda.mov) *(198MB - Download to view)*
+**📹 Demo Video**: [Watch on YouTube](https://youtu.be/fNQkpTc8WDs)
 
 *Experience the real-time analysis, beautiful UI, and comprehensive insights in action!*
 
-> **💡 Tip**: For better viewing experience, you can:
-> - Download the video file above
-> - Upload to [GitHub Releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases) for streaming
-> - Host on [YouTube](https://youtube.com) or [Vimeo](https://vimeo.com) and link here
+> **🎬 Stream directly** - No downloads needed, perfect for all devices!
 
 ## 📱 Screenshots
 
