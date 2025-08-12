@@ -149,13 +149,13 @@ FLASK_ENV=production
 ## 📱 Screenshots
 
 ### Main Interface
-![Main Interface](docs/screenshots/main-interface.png)
+![Main Interface](Main%20Interface.png)
 
 ### Analysis Results
-![Analysis Results](docs/screenshots/analysis-results.png)
+![Analysis Results](Analysis%20Results.png)
 
 ### Educational Tools
-![Educational Tools](docs/screenshots/educational-tools.png)
+![Educational Tools](Educational%20Tools.png)
 
 ## 🤝 Contributing
 
