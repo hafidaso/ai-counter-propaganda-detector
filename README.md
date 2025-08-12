@@ -85,9 +85,8 @@ npm run serve
 ### **Backend (Python/Flask)**
 - **Flask**: Lightweight web framework
 - **SpaCy**: Advanced NLP processing
-- **OpenAI/OpenRouter**: LLM integration for advanced analysis
-- **PostgreSQL**: Data storage and caching
-- **Redis**: Session management and caching
+- **OpenRouter**: LLM integration with Mistral 7B Instruct model
+- **In-memory processing**: Fast, lightweight analysis without database dependencies
 
 ### **Frontend (React)**
 - **React 18**: Modern React with hooks and functional components
@@ -96,10 +95,12 @@ npm run serve
 - **Responsive design**: Mobile-first approach with modern breakpoints
 
 ### **AI Models**
-- **Traditional NLP**: Rule-based propaganda detection
-- **Large Language Models**: Advanced content analysis and explanations
+- **OpenRouter Integration**: Primary LLM service with Mistral 7B Instruct model
+- **Mistral 7B Instruct**: Fast, efficient 7B parameter model for real-time analysis
+- **Traditional NLP**: Rule-based propaganda detection with SpaCy
 - **Sentiment Analysis**: Emotional intensity and bias scoring
 - **Entity Recognition**: Named entity extraction and analysis
+- **Model Flexibility**: Easy to switch between different OpenRouter models
 
 ## 📊 Analysis Results
 
@@ -129,15 +130,22 @@ This tool is designed to:
 ### Environment Variables
 ```env
 # LLM API Keys (Required)
-OPENAI_API_KEY=your_api_key_here
-OPENROUTER_API_KEY=your_api_key_here
+OPENROUTER_API_KEY=your_openrouter_api_key_here  # Primary service with Mistral 7B Instruct
+
+# Alternative LLM Providers (Optional)
 GROQ_API_KEY=your_groq_api_key_here
 HUGGINGFACE_API_KEY=your_huggingface_api_key_here
+OPENAI_API_KEY=your_openai_api_key_here
 
 # Optional: Security & Configuration
 SECRET_KEY=your_secret_key_here
 FLASK_ENV=production
 ```
+
+### Model Configuration
+- **Default Model**: Mistral 7B Instruct via OpenRouter (fast, efficient)
+- **Alternative Models**: Easy to switch to other OpenRouter models (GPT-4, Claude, etc.)
+- **Fallback Support**: Automatic fallback to other providers if OpenRouter is unavailable
 
 ### Customization
 - **Thresholds**: Adjust risk level boundaries
