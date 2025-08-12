@@ -6,7 +6,7 @@ import StatusBar from './components/StatusBar';
 import AnalysisSettings from './components/AnalysisSettings';
 import ComparativeAnalysis from './components/ComparativeAnalysis';
 import EducationalTools from './components/EducationalTools';
-import { apiService } from './services/api';
+import { analyzeText, compareTexts, checkHealth, getLLMHealth, getModelsStatus } from './services/api';
 
 function App() {
   const [analysisResult, setAnalysisResult] = useState(null);
@@ -27,7 +27,7 @@ function App() {
 
   const checkApiHealth = async () => {
     try {
-      const health = await apiService.healthCheck();
+      const health = await checkHealth();
       setApiHealth(health);
     } catch (error) {
       setApiHealth({ status: 'error', models_loaded: false });
@@ -58,7 +58,7 @@ function App() {
         use_llm: analysisSettings.useLLM,
         thresholds: analysisSettings.thresholds
       };
-      const result = await apiService.analyzeText(text, payload);
+      const result = await analyzeText(text, payload);
       setAnalysisResult(result);
       setLoadingStage('Analysis complete!');
     } catch (error) {
@@ -458,7 +458,7 @@ function App() {
             {/* Copyright */}
             <div className="pt-6 border-t border-secondary-200">
               <p className="text-secondary-400 text-sm">
-                © 2024 AI Counter-Propaganda Detector. Built with advanced AI technology for media literacy by Hafida Belayd.
+                © 2025 AI Counter-Propaganda Detector. Built with advanced AI technology for media literacy by Hafida Belayd.
               </p>
             </div>
           </div>
